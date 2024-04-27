@@ -1,0 +1,15 @@
+# Arquivos de ambiente virtual
+.env
+venv/
+virtualenv/
+*.pyc
+
+# Arquivos de cache
+__pycache__/
+
+# Arquivos de banco de dados
+db.sqlite3
+
+# Arquivos de dependências
+.Pipfile
+.Pipfile.lock

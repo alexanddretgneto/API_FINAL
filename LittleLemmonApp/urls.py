@@ -1,11 +1,20 @@
 from django.urls import include, path
-from .views import ListUsersView, UserDeleteView, UserDetailsView
-from rest_framework.authtoken import views
-from rest_framework.authtoken.views import ObtainAuthToken
+from .views import CategoryViewSet, GroupDeliveryCrewUsersViewSet, GroupManagerUsersViewSet, MenuItemViewSet, CartItemViewSet, OrderViewSet, OrderItemViewSet, UserViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'categories', CategoryViewSet)
+router.register(r'menu-items', MenuItemViewSet)
+router.register(r'carts', CartItemViewSet)
+router.register(r'orders', OrderViewSet)
+router.register(r'order-items', OrderItemViewSet)
+router.register(r'users', UserViewSet, basename='user')
+router.register(r'groups/manager/users', GroupManagerUsersViewSet, basename='group-manager-users')
+router.register(r'groups/delivery-crew/users', GroupDeliveryCrewUsersViewSet, basename='group-delivery-crew-users')
 
 urlpatterns = [
-    path('users/', ListUsersView.as_view(), name='user-create'),  # Rota para criar usuários
-    path('users/<int:pk>/', UserDeleteView.as_view(), name='user-delete'),  # Rota para deletar usuários
-    path('user/', UserDetailsView.as_view(), name='user_details'),  # Rota para detalhes do usuário
-    
-    ]
+    path('', include(router.urls)),
+    path('menu-items/<int:pk>/add-to-cart/', CartItemViewSet.as_view({'post': 'create'}), name='add-to-cart'),
+]
+
+urlpatterns += router.urls
